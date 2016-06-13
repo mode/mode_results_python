@@ -10,7 +10,7 @@ This script allows users to download PDF's from email shared reports that includ
 4.  Run this script the first time using 
     `python pdf.py -org={{organization_username}} -reporttoken={{report_token}}`
     You will receive an error stating no querytoken was provide but querytokens will be printed above the error with it's SQL to help you choose the correct token.  
-4.  Once you've selected a token, run the script using 
+4.  Once you've selected a querytoken, run the script using 
 
     `python pdf.py -org={{organization_username}} -reporttoken={{report_token}} -querytoken={{query_token}}`
 

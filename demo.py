@@ -31,7 +31,7 @@ def get_mode_results():
 	if(args.org is not None and args.reporttoken is not None):
 		api_url = '/api/' + args.org + '/reports/' + args.reporttoken
 	else:
-		sys.exit('We did not get your -org or -report parameters.')
+		sys.exit('We did not get your -org or -reporttoken parameters.')
 
 	auth = get_auth('mode')
 
@@ -51,10 +51,17 @@ def get_mode_results():
 	#You need this part if there is more than one query in the report
 	for x in query_runs:
 		token = x['query_token']
-		#print "Token: " + token
+		raw = x['raw_source']
+		print "Query Token: " + token
+		print token + " SQL: \n" + raw
+		print "*************************************"
 		if(token == args.querytoken):
 			query_run = x['token']
-	url = url + query_run + '/results'
+
+	if(args.querytoken is not None):
+		url = url + query_run + '/results'
+	else:
+		sys.exit('We did not get your -querytoken parameter. Please choose a query token to use when running this code.')
 
 	data = get_response_json(url, auth, True)
 
@@ -66,6 +73,7 @@ def get_mode_results():
 
 	i = 0
 
+    #Change this to match the columns in your dataset as needed
 	for x in data:
 		i = i + 1
 		team = x['team']

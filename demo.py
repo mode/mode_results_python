@@ -1,3 +1,4 @@
+
 import json, requests, datetime, ConfigParser, argparse, sys
 from requests.auth import HTTPBasicAuth
 
@@ -11,11 +12,8 @@ def get_auth(whichAuth):
 	auth = (token, password)
 	return auth
 
-def get_response_json(url, auth, isAuthNeeded):
-	if(isAuthNeeded):
-		response = requests.get(url, auth=auth)
-	else:
-		response = requests.get(url)
+def get_response_json(url, auth):
+	response = requests.get(url, auth=auth)
 	return response.json()
 
 def get_mode_results():
@@ -37,14 +35,14 @@ def get_mode_results():
 
 	url = mode_url + api_url
 
-	data = get_response_json(url, auth, True)
+	data = get_response_json(url, auth)
 
 	links = data['_links']
 	last_run = links['last_successful_run']
 	run_url = last_run['href']	
 	url = mode_url + run_url + '/query_runs/'
 
-	data = get_response_json(url, auth, True)
+	data = get_response_json(url, auth)
 	
 	embedded = data['_embedded']
 	query_runs = embedded['query_runs']
@@ -53,7 +51,7 @@ def get_mode_results():
 		token = x['query_token']
 		raw = x['raw_source']
 		print "Query Token: " + token
-		print token + " SQL: \n" + raw
+		#print token + " SQL: \n" + raw
 		print "*************************************"
 		if(token == args.querytoken):
 			query_run = x['token']
@@ -63,13 +61,13 @@ def get_mode_results():
 	else:
 		sys.exit('We did not get your -querytoken parameter. Please choose a query token to use when running this code.')
 
-	data = get_response_json(url, auth, True)
+	data = get_response_json(url, auth)
 
 	links = data['_links']
 	json = links['json']
 	url = json['href']
 
-	data = get_response_json(url, auth, False)
+	data = get_response_json(url, auth)
 
 	i = 0
 

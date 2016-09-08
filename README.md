@@ -1,5 +1,5 @@
 # mode_results_python
-This script allows users to download PDF's from email shared reports that include PDF
+This script allows users to access Mode result sets via a REST API
 
 
 # Steps to use this script:

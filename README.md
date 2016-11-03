@@ -6,7 +6,7 @@ This script allows users to access Mode result sets via a REST API
 
 1.  Make sure your report has run successfully at least once.
 2.  In Mode, generate API token (under Settings -> Your Name -> API Tokens).
-3.  Add the token and password values to the python.properties file.
+3.  Add the token and password values to the mode.yml file.
 4.  Modify lines 77 - 80 in demo.py to reflect the column names in your dataset.
 4.  Run this script the first time using 
     `python demo.py -org={{organization_username}} -reporttoken={{report_token}}`

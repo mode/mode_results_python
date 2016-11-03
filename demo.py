@@ -1,14 +1,14 @@
 
-import json, requests, datetime, ConfigParser, argparse, sys
+import json, requests, datetime, ConfigParser, argparse, sys, yaml
 from requests.auth import HTTPBasicAuth
 
 
 def get_auth(whichAuth):
-	file = 'python.properties'
-	config = ConfigParser.RawConfigParser()
-	config.read(file)
-	token = config.get('ModeSection', 'token')
-	password = config.get('ModeSection', 'password')
+	with open ('mode.yml', 'r') as f:
+		mode = yaml.load(f) 
+
+	token = mode["mode"]["token"]
+	password = mode["mode"]["password"]
 	auth = (token, password)
 	return auth
 
@@ -35,6 +35,8 @@ def get_mode_results():
 
 	url = mode_url + api_url
 
+	print "API URL: " + url
+
 	data = get_response_json(url, auth)
 
 	links = data['_links']
@@ -58,6 +60,7 @@ def get_mode_results():
 
 	if(args.querytoken is not None):
 		url = url + query_run + '/results'
+		print "Final URL: " + url
 	else:
 		sys.exit('We did not get your -querytoken parameter. Please choose a query token to use when running this code.')
 
